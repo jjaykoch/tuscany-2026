@@ -36,6 +36,7 @@
   .chev.open { transform: rotate(180deg); }
   .day-body { display: none; padding: 0 16px 14px; border-top: 1px solid #f0ede8; }
   .day-body.open { display: block; }
+  .day-body .tier:first-of-type { margin-top: 14px; }
   .tier { margin-top: 10px; }
   .tier + .tier { border-top: 1px solid #f0ede8; padding-top: 10px; margin-top: 10px; }
   .pill { display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 2px 8px; border-radius: 20px; margin-bottom: 4px; }
@@ -87,6 +88,12 @@
   .snack-item:last-child { border-bottom: none; }
   .snack-type { font-size: 11px; color: #999; margin-left: 6px; }
   .tbd { color: #aaa; font-style: italic; }
+  .phrase-table { border: 1px solid #eeecea; border-radius: 8px; overflow: hidden; }
+  .phrase-row { display: flex; font-size: 13px; border-bottom: 1px solid #f0ede8; }
+  .phrase-row:last-child { border-bottom: none; }
+  .phrase-en { padding: 7px 12px; color: #555; flex: 1; border-right: 1px solid #f0ede8; }
+  .phrase-it { padding: 7px 12px; color: #1a4f8a; font-weight: 500; flex: 1; background: #fafaf8; }
+  .day-img { width: 100%; height: 130px; object-fit: cover; object-position: center; display: block; border-bottom: 1px solid #f0ede8; }
 </style>
 </head>
 <body>
@@ -102,6 +109,7 @@
     <div class="tab" onclick="switchTab('florence')">Florence</div>
     <div class="tab" onclick="switchTab('towns')">Nearby Towns</div>
     <div class="tab" onclick="switchTab('options')">Options</div>
+    <div class="tab" onclick="switchTab('tips')">Tips</div>
   </div>
 </div>
 
@@ -261,6 +269,94 @@
 
 </div>
 
+  <!-- TIPS TAB -->
+  <div class="tab-panel" id="tab-tips">
+
+    <div class="section">
+      <h2>☀️ Weather in July</h2>
+      <p style="font-size:13px;color:#555;line-height:1.7;margin-bottom:10px">Italy in July is peak summer — hot, dry, and sunny with long days. It stays light until after 9pm, which is great for evening strolls and late dinners. Rainfall is minimal and usually just brief afternoon thunderstorms.</p>
+      <ul class="town-bullets">
+        <li><strong>Tuscany (Florence, Figline, Siena):</strong> expect 88–93°F most days. Florence in particular holds heat — midday can feel significantly hotter than the actual temperature.</li>
+        <li><strong>Portofino and Cinque Terre (coastal Liguria):</strong> slightly cooler with sea breezes, but still 82–88°F.</li>
+        <li><strong>Rome (departure night):</strong> can exceed 95°F in July. Plan the late-night Rome tour strategically — after midnight it's much more comfortable.</li>
+        <li><strong>Evenings at the villa:</strong> pleasant and cooler, especially with the pool. This is your refuge from the midday heat on big day-trip days.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>🎒 What to Pack</h2>
+      <ul class="town-bullets">
+        <li><strong>Lightweight fabrics:</strong> cotton and linen are your best friends. Avoid synthetics — they trap heat on cobblestone streets in 90°F weather.</li>
+        <li><strong>Sun protection:</strong> sunglasses, a wide-brimmed hat, and high-SPF sunscreen. UV levels are strong all day, not just at peak hours.</li>
+        <li><strong>Light layer for evenings and churches:</strong> temperatures drop at night and Italian churches require covered shoulders and knees to enter. A light cardigan or scarf covers both situations.</li>
+        <li><strong>Comfortable walking shoes:</strong> every historic city in Italy has cobblestone streets. Sneakers or supportive flats. Save the sandals for the villa and Portofino harbor.</li>
+        <li><strong>Reusable water bottle:</strong> free public drinking fountains (called Nasoni) are everywhere in Italian cities — clean, cold, and constantly running. Fill up constantly.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>🕛 Beat the Heat</h2>
+      <p style="font-size:13px;color:#555;line-height:1.7;margin-bottom:10px">The sun is strongest between noon and 5pm. On Florence days, this lines up perfectly with museum visits — Uffizi and Accademia are best done during the hottest part of the day so you're indoors. Plan outdoor sightseeing for morning and late afternoon.</p>
+      <ul class="town-bullets">
+        <li>Gelato is not optional. It is a hydration strategy.</li>
+        <li>Most restaurants don't open for dinner until 7:30–8pm — plan accordingly and don't show up hungry at 6pm.</li>
+        <li>Midday in small towns like Figline, businesses close for riposo (the Italian afternoon break) from roughly 1–4pm. Don't count on shops being open.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>🍽 Restaurant Etiquette</h2>
+      <ul class="town-bullets">
+        <li><strong>Coperto:</strong> most restaurants add a small cover charge (€1–3 per person) to the bill automatically. It's normal and not a mistake — it covers bread and the table.</li>
+        <li><strong>Tipping:</strong> not expected the way it is in the US. Rounding up or leaving a few euros is appreciated. Do not tip 20%.</li>
+        <li><strong>Pacing:</strong> Italian meals move slowly by design. The waiter will not bring your check until you ask — "Il conto, per favore." This is a feature, not a flaw.</li>
+        <li><strong>Water:</strong> tap water is safe to drink everywhere in Italy. At restaurants, ask for "acqua del rubinetto" (tap water) or bring your own bottle — sparkling and still mineral water are both charged for.</li>
+        <li><strong>Coffee:</strong> cappuccino is a morning drink only. Ordering one after a meal will confuse your waiter. Espresso or macchiato after lunch and dinner.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>🇮🇹 Italian Phrases</h2>
+      <p style="font-size:12px;color:#888;font-style:italic;margin-bottom:12px">Starting with "Buongiorno, parla inglese?" (Good morning, do you speak English?) is always appreciated — even if the answer is yes.</p>
+
+      <h3 style="font-size:12px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.05em;margin:0 0 8px">Greetings</h3>
+      <div class="phrase-table" style="margin-bottom:16px">
+        <div class="phrase-row"><span class="phrase-en">Hello (informal)</span><span class="phrase-it">Ciao</span></div>
+        <div class="phrase-row"><span class="phrase-en">Good morning / Good day</span><span class="phrase-it">Buongiorno</span></div>
+        <div class="phrase-row"><span class="phrase-en">Good evening</span><span class="phrase-it">Buonasera</span></div>
+        <div class="phrase-row"><span class="phrase-en">Goodbye</span><span class="phrase-it">Arrivederci</span></div>
+        <div class="phrase-row"><span class="phrase-en">Please</span><span class="phrase-it">Per favore</span></div>
+        <div class="phrase-row"><span class="phrase-en">Thank you</span><span class="phrase-it">Grazie</span></div>
+        <div class="phrase-row"><span class="phrase-en">You're welcome</span><span class="phrase-it">Prego</span></div>
+        <div class="phrase-row"><span class="phrase-en">Excuse me / Sorry</span><span class="phrase-it">Scusi</span></div>
+      </div>
+
+      <h3 style="font-size:12px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.05em;margin:0 0 8px">Getting Around</h3>
+      <div class="phrase-table" style="margin-bottom:16px">
+        <div class="phrase-row"><span class="phrase-en">Do you speak English?</span><span class="phrase-it">Parla inglese?</span></div>
+        <div class="phrase-row"><span class="phrase-en">Where is...?</span><span class="phrase-it">Dov'è...?</span></div>
+        <div class="phrase-row"><span class="phrase-en">Where is the bathroom?</span><span class="phrase-it">Dov'è il bagno?</span></div>
+        <div class="phrase-row"><span class="phrase-en">How much does it cost?</span><span class="phrase-it">Quanto costa?</span></div>
+        <div class="phrase-row"><span class="phrase-en">Can you help me?</span><span class="phrase-it">Può aiutarmi?</span></div>
+      </div>
+
+      <h3 style="font-size:12px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.05em;margin:0 0 8px">At Restaurants</h3>
+      <div class="phrase-table" style="margin-bottom:16px">
+        <div class="phrase-row"><span class="phrase-en">A table for [number], please</span><span class="phrase-it">Un tavolo per [numero], per favore</span></div>
+        <div class="phrase-row"><span class="phrase-en">May I see the menu?</span><span class="phrase-it">Posso vedere il menù?</span></div>
+        <div class="phrase-row"><span class="phrase-en">I would like this</span><span class="phrase-it">Vorrei questo</span></div>
+        <div class="phrase-row"><span class="phrase-en">The bill, please</span><span class="phrase-it">Il conto, per favore</span></div>
+        <div class="phrase-row"><span class="phrase-en">Water</span><span class="phrase-it">Acqua</span></div>
+        <div class="phrase-row"><span class="phrase-en">Tap water</span><span class="phrase-it">Acqua del rubinetto</span></div>
+        <div class="phrase-row"><span class="phrase-en">Coffee (espresso)</span><span class="phrase-it">Caffè</span></div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
 <script>
 function switchTab(name) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -407,6 +503,20 @@ const days = [
    badges:[]}
 ];
 
+const dayImages = [
+  "https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?w=1200&q=80", // Day 1 - Tuscan villa/countryside
+  "https://images.unsplash.com/photo-1534445867742-43195f401b6c?w=1200&q=80", // Day 2 - Florence skyline
+  "https://images.unsplash.com/photo-1568051243858-533a607809a5?w=1200&q=80", // Day 3 - Tuscan town piazza
+  "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=1200&q=80", // Day 4 - Portofino harbor
+  "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200&q=80", // Day 5 - Cooking/pasta
+  "https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=1200&q=80", // Day 6 - Ferrari red car
+  "https://images.unsplash.com/photo-1499678329028-101435549a4e?w=1200&q=80", // Day 7 - Cinque Terre coast
+  "https://images.unsplash.com/photo-1586861203927-800a5acdcc4d?w=1200&q=80", // Day 8 - Chianti vineyard
+  "https://images.unsplash.com/photo-1574010060524-bce17a6a6c4c?w=1200&q=80", // Day 9 - Siena Piazza del Campo
+  "https://images.unsplash.com/photo-1543429257-3eb0b65d9c58?w=1200&q=80", // Day 10 - Florence Duomo
+  "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=1200&q=80", // Day 11 - Rome at night
+];
+
 const wrap = document.getElementById('days');
 days.forEach((day, i) => {
   const card = document.createElement('div');
@@ -419,7 +529,8 @@ days.forEach((day, i) => {
   const nHTML = day.note ? `<p class="note">${day.note}</p>` : '';
   const cHTML = day.cars ? `<p class="cars">${day.cars}</p>` : '';
   const mHTML = `<div class="meals"><div class="meal-row"><span class="meal-label">Lunch</span><span class="meal-text">${day.lunch}</span></div><div class="meal-row"><span class="meal-label">Dinner</span><span class="meal-text">${day.dinner}</span></div></div>`;
-  card.innerHTML = `<div class="day-header" onclick="tog(${i})"><span class="day-num">${day.n}</span><span class="day-date">${day.d}</span><span class="day-title">${day.t}</span><span class="chev" id="c${i}">&#8964;</span></div><div class="day-body" id="b${i}">${tHTML}${cHTML}${nHTML}${mHTML}${bHTML}</div>`;
+  const imgHTML = `<img class="day-img" src="${dayImages[i]}" alt="${day.t}" loading="lazy">`;
+  card.innerHTML = `<div class="day-header" onclick="tog(${i})"><span class="day-num">${day.n}</span><span class="day-date">${day.d}</span><span class="day-title">${day.t}</span><span class="chev" id="c${i}">&#8964;</span></div><div class="day-body" id="b${i}">${imgHTML}${tHTML}${cHTML}${nHTML}${mHTML}${bHTML}</div>`;
   wrap.appendChild(card);
 });
 function tog(i) { document.getElementById('b'+i).classList.toggle('open'); document.getElementById('c'+i).classList.toggle('open'); }
