@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tuscany Family Trip — July 2–12, 2026</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f4f0; color: #1a1a18; padding: 2rem 1rem; }
+  .container { max-width: 800px; margin: 0 auto; }
+  h1 { font-size: 24px; font-weight: 600; margin-bottom: 4px; }
+  .meta { font-size: 13px; color: #666; margin-bottom: 4px; }
+  .drivers { font-size: 12px; color: #888; margin-bottom: 16px; }
+  .legend { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 20px; }
+  .li { display: flex; align-items: center; gap: 5px; font-size: 12px; color: #555; }
+  .ld { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+
+  /* Day cards */
+  .day { background: #fff; border: 1px solid #e8e6e0; border-radius: 12px; margin-bottom: 10px; overflow: hidden; }
+  .day-header { display: flex; align-items: center; gap: 10px; padding: 12px 16px; cursor: pointer; }
+  .day-header:hover { background: #fafaf8; }
+  .day-num { font-size: 11px; font-weight: 500; color: #999; min-width: 42px; }
+  .day-date { font-size: 12px; color: #777; min-width: 96px; }
+  .day-title { font-size: 14px; font-weight: 500; flex: 1; }
+  .chev { font-size: 18px; color: #bbb; transition: transform 0.2s; line-height: 1; }
+  .chev.open { transform: rotate(180deg); }
+  .day-body { display: none; padding: 0 16px 14px; border-top: 1px solid #f0ede8; }
+  .day-body.open { display: block; }
+  .tier { margin-top: 10px; }
+  .tier + .tier { border-top: 1px solid #f0ede8; padding-top: 10px; margin-top: 10px; }
+  .pill { display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 2px 8px; border-radius: 20px; margin-bottom: 4px; }
+  .p-active { background: #ddeeff; color: #1a4f8a; }
+  .p-mid { background: #dff0d0; color: #2a5c12; }
+  .p-base { background: #eeece6; color: #555; }
+  .p-all { background: #e8e6f8; color: #3c3489; }
+  .sub-label { font-size: 11px; font-weight: 600; color: #999; margin: 6px 0 1px; }
+  .tier-text { font-size: 13px; color: #555; line-height: 1.6; margin: 0 0 2px; }
+  .cars { font-size: 12px; color: #777; margin-top: 6px; }
+  .cars::before { content: "🚗 "; }
+  .note { font-size: 12px; color: #999; font-style: italic; margin-top: 6px; }
+
+  /* Meals */
+  .meals { margin-top: 10px; border-top: 1px dashed #e8e6e0; padding-top: 10px; }
+  .meal-row { display: flex; gap: 8px; margin-bottom: 5px; align-items: flex-start; }
+  .meal-label { font-size: 11px; font-weight: 700; color: #bbb; text-transform: uppercase; letter-spacing: 0.05em; min-width: 52px; padding-top: 1px; }
+  .meal-text { font-size: 13px; color: #777; font-style: italic; line-height: 1.5; }
+
+  /* Badges */
+  .badges { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 4px; }
+  .badge { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; padding: 3px 9px; border-radius: 20px; }
+  .b-ticket { background: #fde8e0; color: #8c3018; }
+  .b-book { background: #fdf0d8; color: #7a4a08; }
+  .b-confirmed { background: #dff0d0; color: #2a5c12; }
+
+  /* Sections */
+  .section { background: #fff; border: 1px solid #e8e6e0; border-radius: 12px; padding: 18px; margin-top: 10px; }
+  .section h2 { font-size: 15px; font-weight: 600; margin-bottom: 12px; color: #1a1a18; padding-bottom: 8px; border-bottom: 2px solid #1F5C99; }
+  .opt-item { font-size: 13px; color: #555; padding: 6px 0; border-bottom: 1px solid #f0ede8; line-height: 1.5; }
+  .opt-item:last-child { border-bottom: none; }
+  .opt-tag { font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: 10px; margin-right: 5px; background: #eeece6; color: #555; }
+  .tag-ticket { background: #fde8e0; color: #8c3018; }
+  .tag-book { background: #fdf0d8; color: #7a4a08; }
+  .tag-confirmed { background: #dff0d0; color: #2a5c12; }
+
+  /* Town sections */
+  .town-block { margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid #f0ede8; }
+  .town-block:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .town-name { font-size: 14px; font-weight: 600; color: #1a1a18; margin-bottom: 2px; }
+  .town-dist { font-size: 11px; color: #999; margin-bottom: 8px; }
+  .town-desc { font-size: 13px; color: #555; line-height: 1.7; margin-bottom: 8px; }
+  .town-bullets { list-style: none; padding: 0; margin-bottom: 8px; }
+  .town-bullets li { font-size: 13px; color: #555; line-height: 1.6; padding: 2px 0 2px 14px; position: relative; }
+  .town-bullets li::before { content: "·"; position: absolute; left: 0; color: #bbb; }
+
+  /* Restaurant cards */
+  .rest-card { background: #fafaf8; border: 1px solid #eeecea; border-radius: 8px; padding: 12px 14px; margin-top: 8px; }
+  .rest-name { font-size: 13px; font-weight: 600; color: #1a1a18; margin-bottom: 2px; }
+  .rest-rating { font-size: 12px; color: #888; margin-bottom: 6px; }
+  .rest-items { font-size: 12px; color: #666; line-height: 1.6; }
+  .rest-note { font-size: 11px; color: #999; font-style: italic; margin-top: 4px; }
+
+  /* Snack items */
+  .snack-item { font-size: 13px; color: #555; padding: 5px 0; border-bottom: 1px solid #f0ede8; }
+  .snack-item:last-child { border-bottom: none; }
+  .snack-type { font-size: 11px; color: #999; margin-left: 6px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Tuscany Family Trip</h1>
+  <p class="meta">Villa Andreas Grande · Via Grevigiana 10, Figline Valdarno · July 2–12, 2026 · 13 people</p>
+  <p class="drivers">Josh — stick-shift van (secondary: Roger) &nbsp;·&nbsp; Kun — SUV (secondary: Roger) &nbsp;·&nbsp; Michael — SUV (secondary: Josh)</p>
+  <div class="legend">
+    <div class="li"><div class="ld" style="background:#378ADD"></div>Active: Josh, Alison, Michael, Dacia, Mei, Kun</div>
+    <div class="li"><div class="ld" style="background:#4a9922"></div>Mid: Laurie, Bobby, Grace, Noah</div>
+    <div class="li"><div class="ld" style="background:#888"></div>Base: Roger, Fran, David</div>
+    <div class="li"><div class="ld" style="background:#7F77DD"></div>All groups</div>
+  </div>
+
+  <div id="days"></div>
+
+  <!-- FLOATING OPTIONS -->
+  <div class="section">
+    <h2>⭕ Floating Options</h2>
+    <div class="opt-item"><span class="opt-tag">full day · active</span>Portofino — already scheduled Day 4. Fallback slot if weather or conditions change.</div>
+    <div class="opt-item"><span class="opt-tag">full day · active</span>Private Chianti day — Josh + Alison. Dedicated wine loop, own pace, no group coordination.</div>
+    <div class="opt-item"><span class="opt-tag">half day · all tiers</span>Olive oil estate — standalone visit to a Chianti/Valdarno producer. Pairs with Day 8 or any rest day.</div>
+    <div class="opt-item"><span class="opt-tag">half day · all tiers</span>Monteriggioni — 45 min from villa. Compact medieval walled village, easy walking. Folds into Siena day or rest day.</div>
+    <div class="opt-item"><span class="opt-tag">half day · active + mid</span>San Gimignano — medieval towers, Piazza della Cisterna. Folds into Siena day or standalone.</div>
+    <div class="opt-item"><span class="opt-tag">anytime · active</span>Bike ride — Josh + Michael. Road ride from villa into Chianti hills. No car needed.</div>
+    <div class="opt-item"><span class="opt-tag">anytime · all tiers</span>Morning runs — Arno valley routes from the villa.</div>
+    <div class="opt-item"><span class="opt-tag">anytime · active + mid</span>Piazzale Michelangelo sunset — folds into any Florence day.</div>
+    <div class="opt-item"><span class="opt-tag">full day · active + mid</span>Lucca — ~1.5 hrs from villa. Stunning Renaissance walled city, walkable ramparts, excellent food scene. Not yet an official UNESCO World Heritage Site (on Italy's tentative list), but one of the most beautiful and undervisited cities in Tuscany. Pairs well with a Pisa visit if desired.</div>
+    <div class="opt-item"><span class="opt-tag">full day · active</span>San Marino — UNESCO World Heritage Site (Historic Centre of San Marino and Mount Titano, listed 2008). Note: significant detour — ~2 hrs northeast of the villa near Rimini, well outside the Tuscany geography of this trip. Would need to be a dedicated day and doesn't fold into any other planned activity. Worth it if the UNESCO tick is important; otherwise Lucca and Orvieto deliver comparable historic-town value with far less driving.</div>
+  </div>
+
+  <!-- BOOKING CHECKLIST -->
+  <div class="section" style="margin-top:10px">
+    <h2>📋 Booking Checklist</h2>
+    <div class="opt-item"><span class="opt-tag tag-confirmed">✓ confirmed intent</span>Private chef dinner — arrival night Jul 2, full group (13) · Arianna &amp; Friends inquiry sent</div>
+    <div class="opt-item"><span class="opt-tag tag-confirmed">✓ confirmed intent</span>Cooking class at villa — flexible Jul 3–11, group of 13 · Arianna &amp; Friends inquiry sent (available Jul 3, 6, or 7)</div>
+    <div class="opt-item"><span class="opt-tag tag-confirmed">✓ confirmed intent</span>Private chef dinner — send-off night Jul 11, full group (13) · Arianna &amp; Friends inquiry sent</div>
+    <div class="opt-item"><span class="opt-tag tag-ticket">🎫 book now</span>Uffizi tickets — Mei, Kun, Laurie, Bobby, Grace, Noah (6) · Day 2 · uffizi.it</div>
+    <div class="opt-item"><span class="opt-tag tag-ticket">🎫 book now</span>Accademia tickets — Mei, Kun, Laurie, Bobby, Grace, Noah, Roger, Fran (8) · Day 10 · b-ticket.com</div>
+    <div class="opt-item"><span class="opt-tag tag-ticket">🎫 book now</span>Ferrari Museum — Josh, Kun, Roger, Bobby, Grace, Noah (6) · Day 6 · museo.ferrari.com</div>
+    <div class="opt-item"><span class="opt-tag tag-book">📋 book soon</span>Chianti wine + olive oil estate — Day 8, group of 10–13</div>
+    <div class="opt-item"><span class="opt-tag tag-book">📋 book soon</span>Leather artisan workshop near Santa Croce, Florence — Day 2</div>
+    <div class="opt-item"><span class="opt-tag tag-book">📋 book soon</span>Restaurant in Portofino or Santa Margherita Ligure — Day 4</div>
+  </div>
+
+  <!-- FLORENCE COFFEE & SNACKS -->
+  <div class="section" style="margin-top:10px">
+    <h2>☕ Florence Coffee &amp; Snack Options</h2>
+    <div class="snack-item">Vivoli <span class="snack-type">Affogato (Vanilla or Pistachio)</span></div>
+    <div class="snack-item">Panetteria e Stuzzicheria De Neri <span class="snack-type">Sandwich Shop</span></div>
+    <div class="snack-item">I' Girone De' Ghiotti <span class="snack-type">Sandwich Shop</span></div>
+    <div class="snack-item">Rooster Cafe Firenze <span class="snack-type">Brunch Spot</span></div>
+    <div class="snack-item" style="color:#aaa;font-style:italic">Near Santa Croce (Day 2): TBD — Dacia to compile</div>
+    <div class="snack-item" style="color:#aaa;font-style:italic">Oltrarno / casual (Day 2): TBD — Dacia to compile</div>
+  </div>
+
+  <!-- FLORENCE DINNER OPTIONS -->
+  <div class="section" style="margin-top:10px">
+    <h2>🍽 Florence Dinner Options</h2>
+    <p style="font-size:12px;color:#aaa;font-style:italic;margin-bottom:12px">Dacia to compile — options near Piazza della Signoria, Santa Croce, and Oltrarno for Days 2 and 10.</p>
+    <div class="opt-item" style="color:#aaa;font-style:italic">Near Piazza della Signoria (Day 2): TBD — Dacia to compile</div>
+    <div class="opt-item" style="color:#aaa;font-style:italic">Near Santa Croce (Day 2): TBD — Dacia to compile</div>
+    <div class="opt-item" style="color:#aaa;font-style:italic">Oltrarno / casual (Day 2): TBD — Dacia to compile</div>
+    <div class="opt-item" style="color:#aaa;font-style:italic">Pre-theatre / early dinner (Day 10): TBD — Dacia to compile</div>
+    <div class="opt-item" style="color:#aaa;font-style:italic">Near The Mall route (Day 10): TBD — Dacia to compile</div>
+  </div>
+
+  <!-- TOWNS NEAR THE VILLA -->
+  <div class="section" style="margin-top:10px">
+    <h2>🏘 Towns Near the Villa</h2>
+
+    <div class="town-block">
+      <div class="town-name">Figline Valdarno</div>
+      <div class="town-dist">10 min · Our home base town</div>
+      <ul class="town-bullets">
+        <li>A proper medieval market town enclosed within ancient walls, centred on Piazza Marsilio Ficino — one of the best-preserved medieval piazzas in the Valdarno</li>
+        <li>Named after philosopher Marsilio Ficino, born here in 1433</li>
+        <li>Tuesday morning market in the main piazza — local produce, cheese, salumi, fresh bread, clothing and general goods (7am–12:30pm)</li>
+        <li>Good cafés, local shops, and a relaxed Italian small-town atmosphere. Easy for morning coffee, grocery runs, or a casual evening out.</li>
+      </ul>
+      <div class="rest-card">
+        <div class="rest-name">Osteria Vinicolo</div>
+        <div class="rest-rating">⭐ 4.9 (194 reviews) · Piazza Bianco Bianchi 6, Figline Valdarno</div>
+        <div class="rest-items">Cappelletto with truffles · Creative seasonal pasta dishes · Homemade bread</div>
+        <div class="rest-note">One reviewer says it deserves a Michelin star. Visited multiple times in a single week. Book ahead — fills up fast. Closed Wednesdays. Dinner only Mon/Tue.</div>
+      </div>
+      <div class="rest-card" style="margin-top:6px">
+        <div class="rest-name">Osteria De' Medici</div>
+        <div class="rest-rating">⭐ 4.7 (3,023 reviews) · Piazza Giuseppe Capanni 13, Incisa in Val d'Arno</div>
+        <div class="rest-items">Bistecca alla Fiorentina · Homemade pasta · Roasted potatoes · Desserts</div>
+      </div>
+    </div>
+
+    <div class="town-block">
+      <div class="town-name">Reggello + Vallombrosa Abbey</div>
+      <div class="town-dist">15 min</div>
+      <ul class="town-bullets">
+        <li>Quiet hilltop comune surrounded by ancient chestnut and pine forests</li>
+        <li>Vallombrosa Abbey — a Benedictine monastery founded in 1038, set deep inside a stunning old-growth forest. The drive up through the forest alone is worth the trip.</li>
+        <li>Also home to the Pieve di Cascia, a small Romanesque church housing one of Masaccio's earliest known paintings</li>
+        <li>Great option for anyone who wants a slower, nature-focused half-day. Suitable for all mobility levels.</li>
+      </ul>
+    </div>
+
+    <div class="town-block">
+      <div class="town-name">Loro Ciuffenna</div>
+      <div class="town-dist">25 min · One of the most beautiful villages in Italy</div>
+      <ul class="town-bullets">
+        <li>A compact medieval borgo built into a dramatic rocky gorge above the rushing Ciuffenna river. Stone lanes, arched passageways, and medieval houses stacked above the water — very photogenic and completely tourist-free.</li>
+        <li>Home to the oldest working watermill in Tuscany, built around 1100, still grinding chestnut flour today — built directly into the cliff face above the river</li>
+        <li>Porta dell'Orologio gate and Roman bridge at the village entrance · Church of Santa Maria Assunta with 13th and 14th century frescoes</li>
+        <li>Just outside: Pieve di San Pietro a Gropina — a Romanesque church built around 1000, considered one of the finest examples of Romanesque architecture in Tuscany</li>
+        <li>A 2–3 hour visit covers everything comfortably — perfect morning half-day</li>
+      </ul>
+    </div>
+
+    <div class="town-block">
+      <div class="town-name">Val d'Orcia — Pienza + Montepulciano</div>
+      <div class="town-dist">~1 hr · UNESCO World Heritage landscape</div>
+      <div class="town-desc">The most iconic Tuscan scenery — rolling golden hills, cypress avenues, and hilltop villages. The drive south from the villa through the valley is one of the most beautiful in Italy.</div>
+      <ul class="town-bullets">
+        <li><strong>Pienza</strong> — Renaissance town designed from scratch by Pope Pius II in the 15th century. Famous for Pecorino di Pienza, sold directly from producers along the main street — tastings often free. Dramatic terrace with sweeping Val d'Orcia views. Very compact and flat — 1.5 hours comfortably.</li>
+        <li><strong>Montepulciano</strong> (20 min from Pienza) — Dramatic hilltop town at 605m. Famous for Vino Nobile di Montepulciano DOCG. Historic underground wine cellars (Cantine Storiche) dating to the Etruscans — walk in and taste right at the source, several open without reservation. Note: the climb up the main street is steep — those with mobility considerations may prefer to stay in the lower town.</li>
+      </ul>
+    </div>
+
+    <div class="town-block">
+      <div class="town-name">Arezzo</div>
+      <div class="town-dist">40 min · ⭐ Highly underrated</div>
+      <div class="town-desc">The closest significant city to the villa, dramatically undervisited compared to Florence and Siena. Easy to visit in a day.</div>
+      <ul class="town-bullets">
+        <li><strong>Piazza Grande</strong> — one of the most beautiful sloping medieval piazzas in Italy, surrounded by medieval and Renaissance buildings. Far less touristy than anything in Florence.</li>
+        <li><strong>Basilica di San Francesco</strong> — houses the Legend of the True Cross fresco cycle by Piero della Francesca, considered one of the greatest achievements of Renaissance painting. Genuinely extraordinary.</li>
+        <li>Beautiful historic centre, good shopping, excellent local restaurants</li>
+        <li>Suits all mobility levels — compact and flat enough for the base tier</li>
+        <li>First weekend of each month: Mercato dell'Antiquariato (antiques fair) in Piazza Grande — falls outside your dates (July 4–5)</li>
+      </ul>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+const days = [
+  {n:"Day 1",d:"Thu Jul 2",t:"Arrival + Private Chef Dinner",
+   tiers:[{c:"p-all",l:"All groups",subs:[
+     {h:null,x:"Pick up cars at FCO ~7:30am. Drive to house (~3 hrs with stops). Arrive mid-afternoon, check in, settle, explore the property."},
+     {h:"Evening",x:"Private chef dinner at the villa — Arianna & Friends. Easy first night, everyone together."}
+   ]}],
+   note:"Call owners at least 1 hr before arrival. Have passport copies ready. Earliest check-in 4:00pm.",cars:null,
+   lunch:"On the road — stop en route from Rome for a casual lunch.",
+   dinner:"Full group (13) — private chef dinner at the villa. Arianna & Friends. ✓ Inquiry sent.",
+   badges:[{c:"b-confirmed",x:"✓ Private chef dinner — arrival night (Arianna & Friends inquiry sent)"}]},
+
+  {n:"Day 2",d:"Fri Jul 3",t:"Florence Round 1 + Uffizi",
+   tiers:[
+     {c:"p-active",l:"Active",subs:[{h:null,x:"Drive in early. Duomo exterior, Ponte Vecchio, Piazza della Signoria. San Lorenzo Market — leather, bags. Leather artisan workshop near Santa Croce (book in advance). Piazzale Michelangelo at sunset."}]},
+     {c:"p-mid",l:"Mid (optional)",subs:[{h:null,x:"Lighter version — Ponte Vecchio, San Lorenzo Market, café."}]},
+     {c:"p-base",l:"Base",subs:[{h:null,x:"Home."}]}
+   ],
+   note:null,cars:"2–3 cars depending on mid-group interest.",
+   lunch:"Florence — group lunch TBD. Dacia to suggest options near Piazza della Signoria or San Lorenzo.",
+   dinner:"Florence or back at villa. Full group vs. on-your-own TBD — Dacia to coordinate.",
+   badges:[
+     {c:"b-ticket",x:"🎫 Uffizi — Mei, Kun, Laurie, Bobby, Grace, Noah (6) · uffizi.it"},
+     {c:"b-book",x:"📋 Book: leather artisan workshop near Santa Croce"}
+   ]},
+
+  {n:"Day 3",d:"Sat Jul 4",t:"Recovery + Local Explore",
+   tiers:[{c:"p-all",l:"All groups",subs:[
+     {h:null,x:"Sleep in. Pool, unpack, decompress. Walk or short drive to Figline Valdarno — piazza, cafés, grocery run."},
+     {h:"Opt-in — Dacia",x:"Research and visit small towns in the area. Dacia to identify nearby options for the group."}
+   ]}],
+   note:"Intentional jet lag buffer. No early starts.",cars:null,
+   lunch:"Casual — cafés in Figline Valdarno or at the villa.",
+   dinner:"On your own or light group dinner in Figline Valdarno.",
+   badges:[]},
+
+  {n:"Day 4",d:"Sun Jul 5",t:"Portofino",
+   tiers:[
+     {c:"p-active",l:"Active (+ mid if interested)",subs:[{h:null,x:"Depart ~6:30am. Drive to Santa Margherita Ligure (park here — Portofino is car-free). Ferry (15 min) or coastal walk (~3 miles) into Portofino. Lunch on the water, harbor, Castello Brown viewpoint. Depart by 4–5pm, home by 7–8pm."}]},
+     {c:"p-base",l:"Base + remaining mid — home",subs:[{h:null,x:"Villa day. Pool, rest, local explore."}]}
+   ],
+   note:"Very crowded in July. Arrive Santa Margherita early for parking. Book restaurant in advance.",
+   cars:"2 cars go to Portofino. 1 stays home.",
+   lunch:"Portofino — lunch on the water. Book in advance. Dacia to suggest options.",
+   dinner:"Back at villa — on your own or casual group dinner.",
+   badges:[{c:"b-book",x:"📋 Book: restaurant in Portofino or Santa Margherita Ligure"}]},
+
+  {n:"Day 5",d:"Mon Jul 6",t:"Cooking Class at the Villa",
+   tiers:[{c:"p-all",l:"All groups",subs:[
+     {h:"Morning",x:"Figline Valdarno market day — shop for ingredients. Optional short town explore."},
+     {h:"Afternoon",x:"Private cooking class at the villa. Chef + English-speaking assistant come to you. Arianna & Friends. Everyone participates at their level."}
+   ]}],
+   note:"Date flexible — pending Arianna confirmation. Ask if they can accommodate Bobby's needs. Start no later than 3:30pm.",cars:null,
+   lunch:"Light lunch at villa or from market before the class.",
+   dinner:"Full group (13) — eat what we make in the cooking class.",
+   badges:[{c:"b-confirmed",x:"✓ Cooking class — flexible Jul 3–11 (Arianna & Friends inquiry sent, available Jul 3, 6 or 7)"}]},
+
+  {n:"Day 6",d:"Tue Jul 7",t:"Ferrari Museum",
+   tiers:[
+     {c:"p-mid",l:"Ferrari group — Maranello (~2 hrs)",subs:[
+       {h:"Who",x:"Josh, Kun, Roger, Bobby, Grace, Noah (6). Kun drives SUV, Roger secondary."},
+       {h:null,x:"Museo Ferrari: F1 cars, road cars, racing history, factory bus tour. Fully accessible. Optional add: Enzo Ferrari Museum in Modena (30 min away). Back by late afternoon."},
+       {h:"Optional morning",x:"Figline Valdarno Tuesday market (7am–12:30pm, Piazza Marsilio Ficino) — local cheese, salumi, fresh produce, bread, olive oil."}
+     ]},
+     {c:"p-all",l:"Everyone else — villa",subs:[{h:null,x:"Alison, Michael, Dacia, Mei, Laurie, Fran, David at home. Pool, rest, opt-in local explore. No pressure."}]}
+   ],
+   cars:"Kun's SUV → Maranello. Van + Michael's SUV stay at villa.",
+   lunch:"Ferrari group: lunch in Maranello or Modena. Villa group: casual at home.",
+   dinner:"On your own or casual group dinner at villa.",
+   badges:[{c:"b-ticket",x:"🎫 Ferrari — Josh, Kun, Roger, Bobby, Grace, Noah (6) · museo.ferrari.com"}]},
+
+  {n:"Day 7",d:"Wed Jul 8",t:"Cinque Terre",
+   tiers:[
+     {c:"p-active",l:"Active only",subs:[{h:null,x:"Depart ~6:30am. Drive to La Spezia (~2 hrs). Train between villages. Vernazza (harbor), Monterosso al Mare (beach, easiest walks), Riomaggiore (cliff scenery). Seafood lunch in a village. Home by ~8pm."}]},
+     {c:"p-mid",l:"Mid + Base — villa",subs:[{h:null,x:"Villa day or light local outing — Figline, nearby hill town, pool."}]}
+   ],
+   note:"Travel light. Sturdy shoes. Do not drive between villages.",
+   cars:"2 cars to Cinque Terre. 1 stays home.",
+   lunch:"Active group: seafood lunch in a Cinque Terre village. Villa group: casual at home.",
+   dinner:"Back at villa — on your own. Recovery night after long day.",
+   badges:[]},
+
+  {n:"Day 8",d:"Thu Jul 9",t:"Wine + Olive Oil",
+   tiers:[
+     {c:"p-active",l:"Active + Mid",subs:[
+       {h:null,x:"Greve in Chianti (piazza, wine shops), Panzano (Dario Cecchini butcher), combined wine + olive oil estate for tasting and lunch. Low walking, mostly driving — mid-mobility friendly."},
+       {h:"Non-wine option",x:"Greve town explore + olive oil tasting only. Dario Cecchini butcher shop in Panzano is a destination in itself, no wine required."}
+     ]},
+     {c:"p-base",l:"Base",subs:[{h:null,x:"Home."}]}
+   ],
+   cars:"2 cars go. 1 stays home with base tier.",
+   lunch:"Wine + olive oil estate — included in tasting experience.",
+   dinner:"Back at villa — on your own or casual group dinner.",
+   badges:[{c:"b-book",x:"📋 Book: Chianti wine + olive oil estate, 10–13 ppl"}]},
+
+  {n:"Day 9",d:"Fri Jul 10",t:"Siena + Monteriggioni",
+   tiers:[
+     {c:"p-active",l:"Active + Mid",subs:[
+       {h:"Morning",x:"Siena (~1 hr drive). Piazza del Campo, Cathedral exterior, lunch — pici pasta and local wine."},
+       {h:"Afternoon",x:"Monteriggioni (~15 min from Siena). Compact medieval walled village, easy walking, countryside views. Optional: San Gimignano add-on (~30 min from Monteriggioni)."}
+     ]},
+     {c:"p-base",l:"Base (optional)",subs:[{h:null,x:"Home, or join for Siena lunch as a final group outing."}]}
+   ],
+   note:"Good final group outing. Grandparents could join for lunch.",
+   cars:"All 3 cars if base joins. 2 cars otherwise.",
+   lunch:"Siena — pici pasta and local wine. Full group or partial depending on who joins. Dacia to suggest options.",
+   dinner:"Back at villa — on your own.",
+   badges:[]},
+
+  {n:"Day 10",d:"Sat Jul 11",t:"Florence Round 2 + Accademia",
+   tiers:[
+     {c:"p-active",l:"Active",subs:[{h:null,x:"Florence Round 2: deeper exploration, shopping, Accademia (David). The Mall luxury outlet on the way home — Gucci, Prada, Ferragamo, Armani, 30+ brands at 30–50% off."}]},
+     {c:"p-mid",l:"Mid (optional)",subs:[{h:null,x:"Lighter Florence visit or villa day."}]},
+     {c:"p-base",l:"Base",subs:[{h:null,x:"Home."}]}
+   ],
+   cars:"2–3 cars depending on group interest.",
+   lunch:"Florence — Dacia to suggest options.",
+   dinner:"Full group (13) — private chef send-off dinner at the villa. ✓ Inquiry sent.",
+   badges:[
+     {c:"b-ticket",x:"🎫 Accademia — Mei, Kun, Laurie, Bobby, Grace, Noah, Roger, Fran (8) · b-ticket.com"},
+     {c:"b-confirmed",x:"✓ Private chef dinner — send-off night, full group (Arianna & Friends inquiry sent)"}
+   ]},
+
+  {n:"Day 11",d:"Sun Jul 12",t:"Departure — Drive to Rome",
+   tiers:[{c:"p-all",l:"All groups",subs:[
+     {h:null,x:"Pack, clean up, final coffee in Figline. Check out by 10am. Drive to Rome (~3 hrs). Hotel near FCO."},
+     {h:"Optional stop — Orvieto",x:"Directly on the A1 highway, ~1.5 hrs from villa and ~1 hr from Rome. UNESCO-listed Etruscan and medieval hill town perched dramatically on volcanic rock. The Duomo di Orvieto is extraordinary. Compact, flat, and accessible for the whole group — a 1–1.5 hr stop still gets you to Rome by mid-afternoon."},
+     {h:"Active — late night Rome",x:"Midnight tour: Trevi Fountain, Pantheon, Colosseum. Rome without the crowds."}
+   ]}],
+   note:"Cars drop off at FCO Monday Jul 13. Josh: Avis #13918769US4, drop-off 11:30am.",cars:null,
+   lunch:"On the road — Orvieto if stopping, otherwise casual motorway stop.",
+   dinner:"Full group (13) — final dinner together in Rome. Dacia to suggest options near Rome Marriott Park Hotel.",
+   badges:[]}
+];
+
+const wrap = document.getElementById('days');
+days.forEach((day, i) => {
+  const card = document.createElement('div');
+  card.className = 'day';
+  const bHTML = day.badges.length ? `<div class="badges">${day.badges.map(b=>`<span class="badge ${b.c}">${b.x}</span>`).join('')}</div>` : '';
+  const tHTML = day.tiers.map((t,ti) => {
+    const sHTML = t.subs.map(s => s.h ? `<p class="sub-label">${s.h}</p><p class="tier-text">${s.x}</p>` : `<p class="tier-text">${s.x}</p>`).join('');
+    return `<div class="tier"><span class="pill ${t.c}">${t.l}</span>${sHTML}</div>`;
+  }).join('');
+  const nHTML = day.note ? `<p class="note">${day.note}</p>` : '';
+  const cHTML = day.cars ? `<p class="cars">${day.cars}</p>` : '';
+  const mHTML = `<div class="meals"><div class="meal-row"><span class="meal-label">Lunch</span><span class="meal-text">${day.lunch}</span></div><div class="meal-row"><span class="meal-label">Dinner</span><span class="meal-text">${day.dinner}</span></div></div>`;
+  card.innerHTML = `<div class="day-header" onclick="tog(${i})"><span class="day-num">${day.n}</span><span class="day-date">${day.d}</span><span class="day-title">${day.t}</span><span class="chev" id="c${i}">&#8964;</span></div><div class="day-body" id="b${i}">${tHTML}${cHTML}${nHTML}${mHTML}${bHTML}</div>`;
+  wrap.appendChild(card);
+});
+function tog(i) { document.getElementById('b'+i).classList.toggle('open'); document.getElementById('c'+i).classList.toggle('open'); }
+</script>
+</body>
+</html>
